@@ -1,4 +1,8 @@
 package org.shounak.llmmcpdemo.llm
 
-class LLMToolCall {
-}
+data class ToolCall(
+    val tool: String,
+    val city: String? = null,
+    val date: String? = null,
+    val explain: String? = null
+)

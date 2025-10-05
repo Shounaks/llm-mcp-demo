@@ -1,0 +1,100 @@
+{
+  "info": {
+    "_postman_id": "fdf7a0d1-b9b8-4c23-a9e3-3b823d46a27f",
+    "name": "MCP Weather Demo",
+    "description": "Postman collection for testing the Kotlin Spring Boot MCP Weather demo with LLM integration.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/mcp/health",
+          "host": ["{{base_url}}"],
+          "path": ["mcp", "health"]
+        },
+        "description": "Checks if the MCP Weather service is running and healthy."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Weather Info",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/mcp/weather?city={{city}}",
+          "host": ["{{base_url}}"],
+          "path": ["mcp", "weather"],
+          "query": [
+            {
+              "key": "city",
+              "value": "{{city}}",
+              "description": "City name for which to fetch weather info."
+            }
+          ]
+        },
+        "description": "Queries the LLM service to get weather information for the given city."
+      },
+      "response": [
+        {
+          "name": "Example Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/mcp/weather?city=Tokyo",
+              "host": ["{{base_url}}"],
+              "path": ["mcp", "weather"],
+              "query": [{ "key": "city", "value": "Tokyo" }]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"city\": \"Tokyo\",\n  \"source\": \"LLMService\",\n  \"data\": \"The weather in Tokyo is currently 25°C and mostly clear.\",\n  \"timestamp\": 1728154310248\n}"
+        },
+        {
+          "name": "Example Error",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/mcp/weather?city=Atlantis",
+              "host": ["{{base_url}}"],
+              "path": ["mcp", "weather"],
+              "query": [{ "key": "city", "value": "Atlantis" }]
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "_postman_previewlanguage": "json",
+          "header": [{ "key": "Content-Type", "value": "application/json" }],
+          "body": "{\n  \"error\": \"Failed to retrieve weather info\",\n  \"details\": \"City not found or LLM request failed.\"\n}"
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "city",
+      "value": "Tokyo",
+      "type": "string"
+    }
+  ]
+}
